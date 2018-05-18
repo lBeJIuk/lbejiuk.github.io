@@ -1,0 +1,109 @@
+body {
+  background-color: #dddddd;
+}
+
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.clearfix {
+  zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+.clearfix:after {
+  clear: both;
+}
+
+.header__title, .header__subtitle {
+  text-align: center;
+}
+
+.preferences {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.preferences__label--executions {
+  float: left;
+}
+
+.preferences__label--repeats {
+  float: right;
+}
+
+.preferences__label--executions>input,
+.preferences__label--repeats>input {
+  height: 30px;
+}
+
+.main {
+  text-align: center;
+}
+.testcases-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  justify-content: space-around;
+  min-height: 300px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.testcase__container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.testcase {
+  font-size: 18px;
+  width: 300px;
+  height: 200px;
+  resize: none;
+}
+
+.results-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.result-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.button {
+  font-size: 17px;
+  background-color: #605e5f;
+  color: #fff;
+  border: none;
+  border-radius: none;
+  outline: none;
+  padding: 10px;
+}
+
+.button:disabled {
+  background-color: #b4b2b2;
+  box-shadow: none;
+}
+
+.button:active {
+  transform: translate(-1px, 1px);
+}
+
+.button--add, .button--starttest {
+  box-shadow: 1px 1px 5px green;
+}
+
+.button--delete, .button--clearresults {
+  box-shadow: 1px 1px 5px red;
+}
