@@ -31,44 +31,63 @@ function deleteTestCaseHandler() {
 }
 
 function executeTests() {
-  var executions = document.getElementById('executions').value;
-  var repeats = document.getElementById('repeats').value;
-  var testCases = document.querySelectorAll('.testcase');
-  var results = [];
-
-  for (var i = 0; i < testCases.length; i++) {
-    results.push(execute(testCases[i].value, +executions, +repeats));
-  }
-  showResults(results);
+  showLoadingScreen();
+  setTimeout(function(){
+    var executions = document.getElementById('executions').value;
+    var repeats = document.getElementById('repeats').value;
+    var testCases = document.querySelectorAll('.testcase');
+    var results = [];
+    for (var i = 0; i < testCases.length; i++) {
+      results.push(execute(testCases[i].value, +executions, +repeats));
+    }
+    showResults(results);
+    hideLoadingScreen();
+    }, 
+  7);
 }
 
 function execute(code, executions, repeats) {
-  var result = {}, start, end;
+  var result = {}, start, end, ressArr = [], currentStart, mid;
   if (typeof executions === 'number' && typeof repeats === 'number') {
     try {
       start = performance.now();
       for (var i = 0; i < repeats; i++) {
+        currentStart = performance.now();
         for (var j = 0; j < executions; j++) {
           eval(code);
         }
+        ressArr.push(performance.now() - currentStart);
       }
       end = performance.now();
       result.full = end - start;
+      result.max = Math.max(...ressArr);
+      result.min = Math.min(...ressArr);
       result.avg = result.full/repeats;
+      ressArr.sort(function(a, b){ return a>b });
+      mid = Math.floor(repeats / 2);
+      if (repeats % 2 === 1) {
+        result.median = (ressArr[mid - 1] + ressArr[mid] + ressArr[mid + 1]) / 3;
+      } else {
+        result.median = (ressArr[mid - 1] + ressArr[mid]) / 2;
+      }
       result.one = result.full/executions;
-      return result;
     } catch (e) {
-      return e;
+      result.error = e;
     }
+  } else {
+    result.error = 'Wrong executions or repeats';
   }
-  return 'err : executions or repeats is not a number';
+  return result;
 }
 
 function showResults(results) {
   var value = {
     full: 'Full time to execute:',
+    max: 'Maximal time to execute:',
+    min: 'Minimal time to execute:',
     avg: 'Average time to execute:',
-    one: 'Average time to execute one statement:'
+    median: 'Median time to execute:',
+    one: 'Average time to execute one statement:',
   }, wrapper = document.querySelectorAll('.results-wrapper')[0],
     div, titel, titelText, valueContainer, valueName, valueContent, divWrapper;
 
@@ -83,16 +102,22 @@ function showResults(results) {
 
     divWrapper = document.createElement('div');
     divWrapper.classList.add('result-wrapper');
-    for (var j in results[i]) {
-      valueContainer = document.createElement('span');
-      valueContainer.classList.add('valueContainer');
-      valueName = document.createElement('span');
-      valueContent = document.createElement('span');
-      valueName.appendChild(document.createTextNode(' ' + value[j]));
-      valueContent.appendChild(document.createTextNode(' ' + results[i][j] + ' ms'));
-      valueContainer.appendChild(valueName);
-      valueContainer.appendChild(valueContent);
-      divWrapper.appendChild(valueContainer);
+    if (typeof results[i].error === 'undefined') {
+      for (var j in results[i]) {
+        valueContainer = document.createElement('span');
+        valueContainer.classList.add('valueContainer');
+        valueName = document.createElement('span');
+        valueContent = document.createElement('span');
+        valueContent.classList.add('valueContent');
+        valueName.appendChild(document.createTextNode(' ' + value[j]));
+        valueContent.appendChild(document.createTextNode(' ' + results[i][j] + ' ms'));
+        valueContainer.appendChild(valueName);
+        valueContainer.appendChild(valueContent);
+        divWrapper.appendChild(valueContainer);
+      }
+    } else {
+      valueContent = document.createTextNode(results[i].error);
+      divWrapper.appendChild(valueContent);
     }
     div.appendChild(divWrapper);
     wrapper.appendChild(div);
@@ -108,6 +133,19 @@ function clearTestResults() {
   clearBtn.disabled = true;
 }
 
+function showLoadingScreen() {
+  var loadingOverlay = document.querySelectorAll('.loadingOverlay')[0];
+  console.log(loadingOverlay);
+  loadingOverlay.classList.toggle('loadingOverlay--hidden');
+}
+
+function hideLoadingScreen() {
+  var loadingOverlay = document.querySelectorAll('.loadingOverlay')[0];
+  console.log(loadingOverlay);
+  loadingOverlay.classList.toggle('loadingOverlay--hidden');
+}
+
+addTestCaseHandler();
 addTestCaseHandler();
 addBtn.addEventListener('click', addTestCaseHandler);
 dellBtn.addEventListener('click', deleteTestCaseHandler);

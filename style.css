@@ -44,6 +44,7 @@ body {
 .main {
   text-align: center;
 }
+
 .testcases-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -89,6 +90,8 @@ body {
   border-radius: none;
   outline: none;
   padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .button:disabled {
@@ -104,6 +107,43 @@ body {
   box-shadow: 1px 1px 5px green;
 }
 
+
+.button--add:focus, .button--starttest:focus {
+  box-shadow: 1px 1px 15px green;
+}
+
 .button--delete, .button--clearresults {
   box-shadow: 1px 1px 5px red;
+}
+
+.button--delete:focus, .button--clearresults:focus {
+  box-shadow: 1px 1px 15px red;
+}
+
+.button--starttest, .button--clearresults {
+  margin-top: 20px;
+}
+
+.valueContent {
+  font-weight: 900;
+}
+
+.loadingOverlay {
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.loadingOverlay--hidden{
+  display: none;
+}
+.loadingOverlay>div{
+  font-size: 40px;
+  vertical-align: middle;
+  font-weight: 900;
 }
