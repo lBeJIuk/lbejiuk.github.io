@@ -9,7 +9,7 @@ function addTestCaseHandler(value) {
   var titel = document.createElement('h5');
   var titelText = document.createTextNode('Test case ' + wrapper.children.length + ' :');
   var textarea = document.createElement('textarea');
-  if (value) {
+  if (value && typeof value === 'string') {
     textarea.value = value;
   }
   div.classList.add('testcase__container');
@@ -155,10 +155,15 @@ function saveValue(testCasesValue) {
   location.hash = btoa(JSON.stringify(testCasesValue));
 }
 
-function restoreValue(){
-  var values = JSON.parse(atob(location.hash.slice(1)));
-  for( var i in values ) {
-    addTestCaseHandler(values[i]);
+function restoreValue() {
+  var values = location.hash.slice(1);
+  try {
+    values = JSON.parse(atob(values));
+    for( var i in values ) {
+      addTestCaseHandler(values[i]);
+    }
+  } catch(e) {
+    addTestCaseHandler();
   }
 }
 
