@@ -3,12 +3,15 @@ var dellBtn = document.querySelectorAll('.button--delete')[0];
 var startBtn = document.querySelectorAll('.button--starttest')[0];
 var clearBtn = document.querySelectorAll('.button--clearresults')[0];
 
-function addTestCaseHandler() {
+function addTestCaseHandler(value) {
   var wrapper = document.querySelectorAll('.testcases-wrapper')[0];
   var div = document.createElement('div');
   var titel = document.createElement('h5');
   var titelText = document.createTextNode('Test case ' + wrapper.children.length + ' :');
   var textarea = document.createElement('textarea');
+  if (value) {
+    textarea.value = value;
+  }
   div.classList.add('testcase__container');
   textarea.classList.add('testcase');
   textarea.id = 'testcase-' + wrapper.children.length;
@@ -37,11 +40,14 @@ function executeTests() {
     var repeats = document.getElementById('repeats').value;
     var testCases = document.querySelectorAll('.testcase');
     var results = [];
+    var testCasesValue = {};
     for (var i = 0; i < testCases.length; i++) {
+      testCasesValue[i] = testCases[i].value;
       results.push(execute(testCases[i].value, +executions, +repeats));
     }
     showResults(results);
     hideLoadingScreen();
+    saveValue(testCasesValue);
     }, 
   7);
 }
@@ -145,8 +151,18 @@ function hideLoadingScreen() {
   loadingOverlay.classList.toggle('loadingOverlay--hidden');
 }
 
-addTestCaseHandler();
-addTestCaseHandler();
+function saveValue(testCasesValue) {
+  location.hash = btoa(JSON.stringify(testCasesValue));
+}
+
+function restoreValue(){
+  var values = JSON.parse(atob(location.hash.slice(1)));
+  for( var i in values ) {
+    addTestCaseHandler(values[i]);
+  }
+}
+
+restoreValue();
 addBtn.addEventListener('click', addTestCaseHandler);
 dellBtn.addEventListener('click', deleteTestCaseHandler);
 startBtn.addEventListener('click', executeTests);
