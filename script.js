@@ -71,7 +71,7 @@ function execute(code, executions, repeats) {
       result.avg = result.full/repeats;
       ressArr.sort(function(a, b){ return a>b });
       mid = Math.floor(repeats / 2);
-      if (repeats % 2 === 1) {
+      if (repeats % 2 === 1 && repeats > 2) {
         result.median = (ressArr[mid - 1] + ressArr[mid] + ressArr[mid + 1]) / 3;
       } else {
         result.median = (ressArr[mid - 1] + ressArr[mid]) / 2;
