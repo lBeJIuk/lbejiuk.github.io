@@ -76,7 +76,7 @@ function execute(code, executions, repeats) {
       } else {
         result.median = (ressArr[mid - 1] + ressArr[mid]) / 2;
       }
-      result.one = result.full/executions;
+      result.one = (result.full/executions)/repeats;
     } catch (e) {
       result.error = e;
     }
