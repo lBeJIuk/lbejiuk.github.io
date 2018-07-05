@@ -74,7 +74,11 @@ function execute(code, executions, repeats) {
       if (repeats % 2 === 1 && repeats > 2) {
         result.median = (ressArr[mid - 1] + ressArr[mid] + ressArr[mid + 1]) / 3;
       } else {
-        result.median = (ressArr[mid - 1] + ressArr[mid]) / 2;
+         if (repeats === 1) {
+          result.median = result.avg;
+        } else {
+           result.median = (ressArr[mid - 1] + ressArr[mid]) / 2;
+        }
       }
       result.one = (result.full/executions)/repeats;
     } catch (e) {
