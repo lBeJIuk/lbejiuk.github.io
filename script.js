@@ -53,21 +53,31 @@ function executeTests() {
 }
 
 function execute(code, executions, repeats) {
-  var result = {}, start, end, ressArr = [], currentStart, mid;
-  if (typeof executions === 'number' && typeof repeats === 'number') {
+  var result = {}, start, end, ressArr = [], currentStart, mid, i, j;
+  if (typeof executions === 'number' && typeof repeats === 'number' && executions > 0 && repeats > 0) {
     try {
       start = performance.now();
-      for (var i = 0; i < repeats; i++) {
+      for (i = 0; i < repeats; i++) {
         currentStart = performance.now();
-        for (var j = 0; j < executions; j++) {
+        for (j = 0; j < executions; j++) {
           eval(code);
         }
         ressArr.push(performance.now() - currentStart);
       }
       end = performance.now();
       result.full = end - start;
-      result.max = Math.max(...ressArr);
-      result.min = Math.min(...ressArr);
+      result.max = 0;
+      result.min = Number.MAX_SAFE_INTEGER;
+      for (i = 0; i < ressArr.length; i++) {
+        if (ressArr[i] < result.min ){
+          result.min = ressArr[i];
+          continue;
+        }
+        if (ressArr[i] > result.max) {
+          result.max = ressArr[i];
+          continue;
+        }
+      }
       result.avg = result.full/repeats;
       ressArr.sort(function(a, b){ return a>b });
       mid = Math.floor(repeats / 2);
@@ -145,13 +155,11 @@ function clearTestResults() {
 
 function showLoadingScreen() {
   var loadingOverlay = document.querySelectorAll('.loadingOverlay')[0];
-  console.log(loadingOverlay);
   loadingOverlay.classList.toggle('loadingOverlay--hidden');
 }
 
 function hideLoadingScreen() {
   var loadingOverlay = document.querySelectorAll('.loadingOverlay')[0];
-  console.log(loadingOverlay);
   loadingOverlay.classList.toggle('loadingOverlay--hidden');
 }
 
