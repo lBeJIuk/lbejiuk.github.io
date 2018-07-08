@@ -1,17 +1,9 @@
-@font-face {
-  font-family: 'Open Sans';
-  src: url('./OpenSans-Regular.woff2') format('woff2'),
-       url('./OpenSans-Bold.woff2') format('woff2'),
-}
 
 body {
   background-color: #dddddd;
   background-image: url('./background.jpg');
   background-attachment: fixed;
   background-size: 100%;
-}
-* {
-  font-family: 'Open Sans', serif;
 }
 
 .wrapper {
