@@ -1,9 +1,17 @@
+@font-face {
+  font-family: 'myf';
+  src: url('./myf-regular.woff2') format('woff2'),
+       url('./myf-Bold.woff2') format('woff2'),
+}
 
 body {
   background-color: #dddddd;
   background-image: url('./background.jpg');
   background-attachment: fixed;
   background-size: 100%;
+}
+* {
+  font-family: 'myf', serif;
 }
 
 .wrapper {
