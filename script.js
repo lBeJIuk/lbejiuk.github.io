@@ -99,6 +99,19 @@ function execute(code, executions, repeats) {
   }
   return result;
 }
+function prepareResults(result) {
+  function prepareNumber(number) {
+    var tmpNum = (number.toString()).split('.'),
+    stdLength = 6;
+    return tmpNum[1] && tmpNum[1].length > stdLength ? number.toFixed(stdLength) : number;
+  }
+
+  result.avg = prepareNumber(result.avg)
+  result.median = prepareNumber(result.median);
+  result.one = prepareNumber(result.one)
+
+  return result;
+}
 
 function showResults(results) {
   var value = {
@@ -109,7 +122,7 @@ function showResults(results) {
     median: 'Median time to execute:',
     one: 'Average time to execute one statement:',
   }, wrapper = document.querySelectorAll('.results-wrapper')[0],
-    div, titel, titelText, valueContainer, valueName, valueContent, divWrapper;
+    div, titel, titelText, valueContainer, valueName, valueContent, divWrapper, result;
 
   clearTestResults();
   for (var i = 0; i < results.length; i++) {
@@ -123,14 +136,15 @@ function showResults(results) {
     divWrapper = document.createElement('div');
     divWrapper.classList.add('result-wrapper');
     if (typeof results[i].error === 'undefined') {
-      for (var j in results[i]) {
+      result = prepareResults(results[i]);
+      for (var j in result) {
         valueContainer = document.createElement('span');
         valueContainer.classList.add('valueContainer');
         valueName = document.createElement('span');
         valueContent = document.createElement('span');
         valueContent.classList.add('valueContent');
         valueName.appendChild(document.createTextNode(' ' + value[j]));
-        valueContent.appendChild(document.createTextNode(' ' + results[i][j] + ' ms'));
+        valueContent.appendChild(document.createTextNode(' ' + result[j] + ' ms'));
         valueContainer.appendChild(valueName);
         valueContainer.appendChild(valueContent);
         divWrapper.appendChild(valueContainer);

@@ -1,5 +1,17 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./OpenSans-Regular.woff2') format('woff2'),
+       url('./OpenSans-Bold.woff2') format('woff2'),
+}
+
 body {
   background-color: #dddddd;
+  background-image: url('./background.jpg');
+  background-attachment: fixed;
+  background-size: 100%;
+}
+* {
+  font-family: 'Open Sans', serif;
 }
 
 .wrapper {
@@ -28,12 +40,9 @@ body {
   margin-bottom: 20px;
 }
 
-.preferences__label--executions {
-  float: left;
-}
-
-.preferences__label--repeats {
-  float: right;
+.preferences__label {
+  display: inline-block;
+  font-weight: 900;
 }
 
 .preferences__label--executions>input,
@@ -51,24 +60,27 @@ body {
   margin-bottom: 20px;
   justify-content: space-around;
   min-height: 300px;
-  max-width: 900px;
+  width: 90%;
   margin: 0 auto;
 }
 
 .testcase__container {
   margin-left: 20px;
   margin-right: 20px;
+  min-width: 45%;
+  flex: 1;
 }
 
 .testcase {
   font-size: 18px;
-  width: 300px;
-  height: 200px;
+  height: 300px;
+  width: 100%;
   resize: none;
 }
 
 .results-wrapper {
-  max-width: 900px;
+  /* max-width: 900px; */
+  font-size: 18px;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
@@ -102,21 +114,33 @@ body {
 .button:active {
   transform: translate(-1px, 1px);
 }
-
-.button--add, .button--starttest {
-  box-shadow: 1px 1px 5px green;
+.button--add, .button--delete {
+  width: 210px;
+}
+.button--starttest, .button--clearresults{
+  width: 150px;
 }
 
-
-.button--add:focus, .button--starttest:focus {
-  box-shadow: 1px 1px 15px green;
+.button--add, .button--starttest {
+  background-color: green;
+  background-image: linear-gradient(to bottom,rgba(0, 255, 0, 1), rgba(0, 200, 0, 1), rgba(0, 255, 0, 1));
+  border-radius: 3px;
+  border: 1px solid rgba(0, 255, 0, 1);
 }
 
 .button--delete, .button--clearresults {
-  box-shadow: 1px 1px 5px red;
+  background-color: red;
+  background-image: linear-gradient(to bottom,rgba(200, 0, 0, 1), rgba(255, 0, 0, 1), rgba(200, 0, 0, 1));
+  border-radius: 3px;
+  border: 1px solid rgba(255, 0, 0, 1);
 }
 
-.button--delete:focus, .button--clearresults:focus {
+
+.button--add:active, .button--starttest:active {
+  box-shadow: 1px 1px 15px green;
+}
+
+.button--delete:active, .button--clearresults:active {
   box-shadow: 1px 1px 15px red;
 }
 
@@ -132,7 +156,7 @@ body {
   background-color: rgba(255, 255, 255, 0.4);
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -146,4 +170,14 @@ body {
   font-size: 40px;
   vertical-align: middle;
   font-weight: 900;
+}
+
+@media screen and (min-width: 600px){
+  .preferences__label--executions {
+    float: left;
+  }
+  
+  .preferences__label--repeats {
+    float: right;
+  }  
 }
